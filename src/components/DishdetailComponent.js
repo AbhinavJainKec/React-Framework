@@ -17,7 +17,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
         );
     }
 
-    function RenderComments({comments}) {
+    function RenderComments({comments, addComment, dishId}) {
         if (comments !=null) {
             return (
                 <div className="col-12 col-md-5 m-1">
@@ -32,7 +32,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                             );
                         })}
                     </ul>
-                    <CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment} />
                 </div>
             );
         }
@@ -62,7 +62,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                     </div>
                     <div className="row">
                         <RenderDish dish={props.dish} />
-                        <RenderComments comments={props.comments} />
+                        <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.id} />
                     </div>
                 </div>
             );
@@ -101,6 +101,7 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
             console.log('Current State Is :' + JSON.stringify(values));
             alert('Current State Is :' + JSON.stringify(values));
             this.handleShowSubmitCommentModal();
+            this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
         }
 
         render() {
@@ -129,9 +130,9 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
                                 </Row>
                                 <Row className="form-group">                                
                                     <Col>
-                                        <Label htmlFor="name">Your name</Label>
-                                        <Control.text model=".name" id="name" name="name" placeholder="Your Name" className="form-control" validators={{ required, minLenght: minLenght(2), maxLenght: maxLenght(15) }}/>
-                                        <Errors className="text-danger" model=".name" show="touched" messages={{ required: 'Required ', minLenght: 'Must be greater than 2 characters ', maxLenght: 'Must be 15 characters or less ' }} />
+                                        <Label htmlFor="author">Your name</Label>
+                                        <Control.text model=".author" id="author" name="author" placeholder="Your Name" className="form-control" validators={{ required, minLenght: minLenght(2), maxLenght: maxLenght(15) }}/>
+                                        <Errors className="text-danger" model=".author" show="touched" messages={{ required: 'Required ', minLenght: 'Must be greater than 2 characters ', maxLenght: 'Must be 15 characters or less ' }} />
                                     </Col>
                                 </Row>
                                 <Row className="form-group">                                
